@@ -1,4 +1,4 @@
-package com.campanha.time.modelo;
+package com.campanha.time.models;
 
 import java.time.LocalDate;
 
@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,29 +15,34 @@ import com.sun.istack.NotNull;
 
 @Entity
 @Table(name = "TB_CAMPANHA")
-public class Campanha {	
-	
+public class Campanha {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;	
-	
+	private Long id;
+
 	@NotNull
 	private String nomeCampanha;
-	
-	@NotNull	
+
+	@NotNull
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dataInicioVigencia;
-	
+
 	@NotNull
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dataFimVigencia;
 	
-	//@ManyToOne
-	//private Cliente cliente;
-
-	public Long getId() {
-		return id;
+	@ManyToOne
+	private Time time;
+	
+	public Time getTime() {
+		return time;
 	}
+
+	public void setTime(Time time) {
+		this.time = time;
+	}
+
 	
 	public String getNomeCampanha() {
 		return nomeCampanha;
@@ -44,6 +50,10 @@ public class Campanha {
 
 	public void setNomeCampanha(String nomeCampanha) {
 		this.nomeCampanha = nomeCampanha;
+	}
+	
+	public Long getId() {
+		return id;
 	}
 
 	public LocalDate getDataInicioVigencia() {
@@ -58,9 +68,8 @@ public class Campanha {
 		return dataFimVigencia;
 	}
 
-	public void setDataFimVigencia(LocalDate dataFimVigencia) {		
+	public void setDataFimVigencia(LocalDate dataFimVigencia) {
 		this.dataFimVigencia = dataFimVigencia;
 	}
-	
-	
+
 }
