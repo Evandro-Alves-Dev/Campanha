@@ -4,9 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +11,7 @@ import com.campanha.time.models.Campanha;
 import com.campanha.time.models.Time;
 import com.campanha.time.repositories.CampanhaRepository;
 import com.campanha.time.repositories.TimeRepository;
-import com.campanha.time.responses.BaseResponse;
 import com.campanha.time.services.CampanhaService;
-
-import ch.qos.logback.core.status.Status;
 
 @Service
 public class CampanhaServiceImpl implements CampanhaService {
@@ -43,34 +37,24 @@ public class CampanhaServiceImpl implements CampanhaService {
 		return listaCorreta;
 	}
 
-	// Garante que não haverá campanhas com nomes iguais (ANDA NÃO FUNCIONA)
+	// Garante que a campanha só sera criada com o id do time (PRECISO USAR)
 	@Override
-	public Campanha garanteNomeUnico(Campanha campanha) {
-		List<Campanha> listaGeral = campanharepository.findAll();
-		for (Campanha itemLista : listaGeral) {
-			if (itemLista.getNomeCampanha().equals(campanha.getNomeCampanha())) {
-				
-			}
-		}
-		return campanha;
-	}
-
-	// Garante que a campanha só sera criada com o id do time
-	@Override
-	public List<Campanha> garanteCadastroCorreto(Campanha campanha, Time time) {
+	public List<Campanha> garanteCadastroCorreto(Campanha campanha, Time time) throws Exception {
 		List<Campanha> listaNova = new ArrayList<>();
 		List<Time> listaTime = timerepository.findAll();
 		for (Time timeLista : listaTime) {
 			if (timeLista.getId().equals(campanha.getTime())) {
 				Campanha save = campanharepository.save(campanha);
 				listaNova.add(save);
+			}else { 
+				throw new Exception("Time inválido, favor verificar.");				
 			}
 		}
 		return listaNova;
 	}
 
 	// Verifica se as datas das campanhas existentes são iguais as novas que serão
-	// cadastradas
+	// cadastradas e que o nome não seja repetido
 	@Override
 	public Campanha verificaVigenciaCampanha(Campanha campanha) throws Exception {
 		List<Campanha> listaGeral = campanharepository.findAll();
@@ -97,6 +81,16 @@ public class CampanhaServiceImpl implements CampanhaService {
 			listaAtualizada.add(save);
 		}
 		return listaAtualizada;
+	}
+
+	@Override
+	public void excluirCampanha(Campanha campanha) {
+		campanharepository.delete(campanha);
+	}
+
+	@Override
+	public Campanha atualizaCampanha(Campanha campanha) {
+		return campanharepository.save(campanha);
 	}
 
 }

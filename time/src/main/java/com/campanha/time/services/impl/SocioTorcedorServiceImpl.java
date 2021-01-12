@@ -20,42 +20,31 @@ public class SocioTorcedorServiceImpl implements SocioTorcedorService {
 	@Autowired
 	SocioTorcedorRepository sociotorcedorrepository;
 
-	@Autowired
-	CampanhaRepository campanharepository;
-
-	@Autowired
-	TimeRepository timerepository;
-	
-	//Verifica se o cliente ja existe através do nome e data de nascimento
+	// Verifica se o cliente ja existe através do nome e data de nascimento
 	@Override
-	public SocioTorcedor verificaSeJaExisteCliente(SocioTorcedor sociotorcedor, Time time, Campanha campanha)
-			throws Exception {
+	public SocioTorcedor verificaSeJaExisteCliente(SocioTorcedor sociotorcedor) throws Exception {
 		List<SocioTorcedor> listaGeral = sociotorcedorrepository.findAll();
 		for (SocioTorcedor socioLista : listaGeral) {
 			if (socioLista.getNome().equals(sociotorcedor.getNome())
 					&& socioLista.getDataNascimento().equals(sociotorcedor.getDataNascimento())) {
 				throw new Exception("Sócio ja cadastrado no sistema");
-			} else {
-				verificaCampanhaValida(sociotorcedor, time, campanha);
 			}
 		}
 		return sociotorcedorrepository.save(sociotorcedor);
 	}
-	
-	//Verifica se existe um time e uma campnaha no banco de dados
+
 	@Override
-	public List<SocioTorcedor> verificaCampanhaValida(SocioTorcedor sociotorcedor, Time time, Campanha campanha)
-			throws Exception {
-		List<SocioTorcedor> listaGeral = sociotorcedorrepository.findAll();
-		List<SocioTorcedor> novaLista = new ArrayList<>();
-		for (SocioTorcedor socioLista : listaGeral) {
-			if (socioLista.getTime().equals(time.getTime())
-					&& socioLista.getCampanha().equals(campanha.getId())) {
-				SocioTorcedor save = sociotorcedorrepository.save(socioLista);
-				novaLista.add(save);
-			}
-			
-		}return novaLista;
+	public List<SocioTorcedor> listarSocioTorcedor() {
+		return sociotorcedorrepository.findAll();
 	}
 
+	@Override
+	public void excluiSocioTorcedor(SocioTorcedor sociotroecedor) {
+		sociotorcedorrepository.delete(sociotroecedor);
+	}
+
+	@Override
+	public SocioTorcedor atualizaSocioTorcedor(SocioTorcedor sociotorcedor) {
+		return sociotorcedorrepository.save(sociotorcedor);
+	}
 }

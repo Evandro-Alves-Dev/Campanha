@@ -10,7 +10,7 @@ public interface CampanhaService {
 	public List<Campanha> campanhaVigente();	
 	public Campanha verificaVigenciaCampanha(Campanha campanha)throws Exception ;
 	public List<Campanha> alteraDataCampanhas();
-	public List<Campanha> garanteCadastroCorreto(Campanha campanha, Time time);
-	public Campanha garanteNomeUnico(Campanha campanha);
-	
+	public List<Campanha> garanteCadastroCorreto(Campanha campanha, Time time)throws Exception ;	
+	public void excluirCampanha(Campanha campanha); 
+	public Campanha atualizaCampanha(Campanha campanha);
 }

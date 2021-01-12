@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.campanha.time.models.Campanha;
@@ -19,53 +21,37 @@ import com.campanha.time.repositories.SocioTorcedorRepository;
 import com.campanha.time.services.impl.SocioTorcedorServiceImpl;
 
 @RestController
+@RequestMapping("api/sociotorcedor")
 public class SocioTorcedorController {
-
-	@Autowired
-	SocioTorcedorRepository sociotorcedorrepository;
 
 	@Autowired
 	SocioTorcedorServiceImpl sociotorcedorserviceimpl;
 
 	// Incluir um novo sócio torcedor
-	@PostMapping("/novosociotorcedor")
-	public List<SocioTorcedor> Salvar(@RequestBody SocioTorcedor sociotorcedor, Time time, Campanha campanha)
-			throws Exception {
-		sociotorcedorserviceimpl.verificaSeJaExisteCliente(sociotorcedor, time, campanha);
-		return sociotorcedorserviceimpl.verificaCampanhaValida(sociotorcedor, time, campanha);
-
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public SocioTorcedor salvar(@RequestBody SocioTorcedor sociotorcedor) throws Exception {
+		return sociotorcedorserviceimpl.verificaSeJaExisteCliente(sociotorcedor);
 	}
 
-	// Consulta todos os sócio torcedores
-	@GetMapping("/sociotorcedor")
-	public List<SocioTorcedor> Listar() {
-		try {
-			return sociotorcedorrepository.findAll();
-		} catch (Exception e) {
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao consultar os sócios torcedores");
-		}
-		return null;
+	// Consulta todos os sócios torcedores
+	@GetMapping
+	@ResponseStatus(HttpStatus.OK)
+	public List<SocioTorcedor> listar() {
+		return sociotorcedorserviceimpl.listarSocioTorcedor();
 	}
 
 	// Excluir um sócio torcedor
-	@DeleteMapping("/deletasociotorcedor")
-	public void Excluir(@RequestBody SocioTorcedor sociotorcedor) {
-		try {
-			sociotorcedorrepository.delete(sociotorcedor);
-		} catch (Exception e) {
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar uma campanha");
-		}
+	@DeleteMapping
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void excluir(@RequestBody SocioTorcedor sociotorcedor) {
+		sociotorcedorserviceimpl.excluiSocioTorcedor(sociotorcedor);
 	}
 
 	// Atualiza um sócio torcedor
-	@PutMapping("/atualizasociotorcedor")
-	public SocioTorcedor Atualiza(@RequestBody SocioTorcedor sociotorcedor) {
-		try {
-			return sociotorcedorrepository.save(sociotorcedor);
-		} catch (Exception e) {
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Erro ao atualizar uma campanha");
-		}
-		return null;
+	@PutMapping
+	@ResponseStatus(HttpStatus.ACCEPTED)
+	public SocioTorcedor atualiza(@RequestBody SocioTorcedor sociotorcedor) {
+		return sociotorcedorserviceimpl.atualizaSocioTorcedor(sociotorcedor);
 	}
-
 }

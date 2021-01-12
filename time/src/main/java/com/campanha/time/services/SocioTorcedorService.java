@@ -8,9 +8,8 @@ import com.campanha.time.models.Time;
 
 public interface SocioTorcedorService {
 	
-	public SocioTorcedor verificaSeJaExisteCliente(SocioTorcedor sociotorcedor, Time time, Campanha campanha) throws Exception;
-	
-	public List<SocioTorcedor> verificaCampanhaValida(SocioTorcedor sociotorcedor, Time time, Campanha campanha) throws Exception;
-	
-	//public SocioTorcedor vinculaCampanha(SocioTorcedor sociotorcedor, Campanha campanha);
+	public SocioTorcedor verificaSeJaExisteCliente(SocioTorcedor sociotorcedor) throws Exception;	
+	public List<SocioTorcedor> listarSocioTorcedor();
+	public void excluiSocioTorcedor(SocioTorcedor sociotroecedor);
+	public SocioTorcedor atualizaSocioTorcedor(SocioTorcedor sociotorcedor);	
 }
