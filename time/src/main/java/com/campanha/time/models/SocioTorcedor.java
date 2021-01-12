@@ -19,7 +19,7 @@ import com.sun.istack.NotNull;
 public class SocioTorcedor {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull

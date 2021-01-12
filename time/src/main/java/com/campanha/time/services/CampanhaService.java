@@ -7,10 +7,10 @@ import com.campanha.time.models.Time;
 
 public interface CampanhaService {
 
-	List<Campanha> campanhaVigente();	
-	boolean verificaVigenciaCampanha(Campanha campanha);
-	List<Campanha> alteraDataCampanhas();
-	List<Campanha> garanteCadastroCorreto(Campanha campanha, Time time);
-	Campanha garanteNomeUnico(Campanha campanha);
+	public List<Campanha> campanhaVigente();	
+	public Campanha verificaVigenciaCampanha(Campanha campanha)throws Exception ;
+	public List<Campanha> alteraDataCampanhas();
+	public List<Campanha> garanteCadastroCorreto(Campanha campanha, Time time);
+	public Campanha garanteNomeUnico(Campanha campanha);
 	
 }

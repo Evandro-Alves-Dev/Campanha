@@ -2,6 +2,7 @@ package com.campanha.time.models;
 
 import java.time.LocalDate;
 
+import javax.annotation.sql.DataSourceDefinition;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,12 +14,13 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sun.istack.NotNull;
 
+
 @Entity
 @Table(name = "TB_CAMPANHA")
 public class Campanha {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@NotNull

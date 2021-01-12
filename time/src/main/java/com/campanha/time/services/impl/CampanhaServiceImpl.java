@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JOptionPane;
+import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,6 @@ public class CampanhaServiceImpl implements CampanhaService {
 				listaCorreta.add(save);
 			}
 		}
-
 		return listaCorreta;
 	}
 
@@ -49,7 +49,7 @@ public class CampanhaServiceImpl implements CampanhaService {
 		List<Campanha> listaGeral = campanharepository.findAll();
 		for (Campanha itemLista : listaGeral) {
 			if (itemLista.getNomeCampanha().equals(campanha.getNomeCampanha())) {
-				return null;
+				
 			}
 		}
 		return campanha;
@@ -72,16 +72,18 @@ public class CampanhaServiceImpl implements CampanhaService {
 	// Verifica se as datas das campanhas existentes são iguais as novas que serão
 	// cadastradas
 	@Override
-	public boolean verificaVigenciaCampanha(Campanha campanha) {
+	public Campanha verificaVigenciaCampanha(Campanha campanha) throws Exception {
 		List<Campanha> listaGeral = campanharepository.findAll();
 		for (Campanha itemLista : listaGeral) {
 			if (itemLista.getDataFimVigencia().equals(campanha.getDataFimVigencia())
 					&& itemLista.getDataInicioVigencia().equals(campanha.getDataInicioVigencia())) {
 				alteraDataCampanhas();
 			}
-
+			if (itemLista.getNomeCampanha().equals(campanha.getNomeCampanha())) {
+				throw new Exception("Campanha ja existe, tente outro nome.");
+			}
 		}
-		return false;
+		return campanharepository.save(campanha);
 	}
 
 	// Acrscenta 1 dia em todas as campanhas ja cadastradas
