@@ -63,7 +63,7 @@ public class CampanhaServiceImpl implements CampanhaService {
 					&& itemLista.getDataInicioVigencia().equals(campanha.getDataInicioVigencia())) {
 				alteraDataCampanhas();
 			}
-			if (itemLista.getNomeCampanha().equals(campanha.getNomeCampanha())) {
+			if (itemLista.getNomeCampanha().equalsIgnoreCase(campanha.getNomeCampanha())) {
 				throw new Exception("Campanha ja existe, tente outro nome.");
 			}
 		}

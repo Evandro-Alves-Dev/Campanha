@@ -25,7 +25,7 @@ public class SocioTorcedorServiceImpl implements SocioTorcedorService {
 	public SocioTorcedor verificaSeJaExisteCliente(SocioTorcedor sociotorcedor) throws Exception {
 		List<SocioTorcedor> listaGeral = sociotorcedorrepository.findAll();
 		for (SocioTorcedor socioLista : listaGeral) {
-			if (socioLista.getNome().equals(sociotorcedor.getNome())
+			if (socioLista.getNome().equalsIgnoreCase(sociotorcedor.getNome())
 					&& socioLista.getDataNascimento().equals(sociotorcedor.getDataNascimento())) {
 				throw new Exception("Sócio ja cadastrado no sistema");
 			}

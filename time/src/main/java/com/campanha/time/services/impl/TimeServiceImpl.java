@@ -19,7 +19,7 @@ public class TimeServiceImpl implements TimeService {
 	public Time verificaNomeIgual(Time time) throws Exception {
 		List<Time> listaGeral = timerepository.findAll();
 		for (Time timeLista : listaGeral) {
-			if (timeLista.getTime().equals(time.getTime())) {
+			if (timeLista.getTime().equalsIgnoreCase(time.getTime())) {
 				throw new Exception("Time ja existe");
 			}
 		}
